@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen Readers</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        .overrideLight {
+            background: #000;
+            color: #fff
+        }
+
+        .overrideDark {
+            background: #fff;
+            color: #000;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .main {
+                background: #000;
+                color: #fff;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .main {
+                background: #fff;
+                color: #000
+            }
+        }
+    </style>
+</head>
+
+<body class="main">
+    <header>
+        <ul>
+            <li><a href="../visual-considerations/index.html">&larr; back</a></li>
+        </ul>
+    </header>
+    <div id="container">
+        <h1>Exercise 5</h1>
+        <p>
+            For this exercise, read the user's dark/light mode preference and set
+            the background to either black or white. For extra credit, allow the
+            checkbox below to override that setting!
+        </p>
+        <label>
+            Enable Dark Mode
+            <input id="input" type="checkbox" onclick="toggle() " />
+        </label>
+    </div>
+    <script>
+        const main = document.querySelector(".main");
+        let lightTheme = window.matchMedia("(prefers-color-scheme: light)");
+        function toggle() {
+
+            let defaultTheme;
+            if (lightTheme) {
+                main.className = 'overrideLight';
+                lightTheme = false;
+            } else {
+                main.className = 'overrideDark';
+                lightTheme = true;
+            }
+        }
+    </script>
+</body>
+
+</html>
