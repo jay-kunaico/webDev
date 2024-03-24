@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!-- saved from url=(0085)https://btholt.github.io/complete-intro-to-web-dev-v3/project-files/coffee/index.html -->
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Masters</title>
+  <link rel="stylesheet" href="./webmasterStyle.css">
+</head>
+
+<body>
+  <nav class="main-nav">
+    <div class="container">
+      <h1>
+        <div class="main-title">Web Masters</div>
+      </h1>
+      <img class="spiderman" src="https://i.ibb.co/XDFkXMx/spiderman.png" alt="" />
+      <!-- <div class="shadow"></div> -->
+    </div>
+  </nav>
+  <div class="page">
+    <section class="order section-container">
+      <h2 class="order-title">ITEMS</h2>
+      <ul class="items">
+        <li class="item">
+          <div class="quantity">1x</div>
+          <div class="name">HTML</div>
+          <div class="price">$9.00</div>
+        </li>
+        <li class="item">
+          <div class="quantity">1x</div>
+          <div class="name">CSS</div>
+          <div class="price">$25.00</div>
+          <ul class="options">
+            <li class="option">CSS tricks</li>
+            <li class="option">Grid Geneartor</li>
+          </ul>
+        </li>
+        <li class="item">
+          <div class="quantity">1x</div>
+          <div class="name">JavaScript</div>
+          <div class="price">$500.00</div>
+          <ul class="options">
+            <li class="option">Types</li>
+            <li class="option">Coercion</li>
+            <li class="option">Closures</li>
+            <li class="option">Prototypes</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    <section class="user-info">
+      <div class="user-name section-container">
+        <h2 class="info-title">NAME</h2>
+        <div class="input-field">
+          <label class="user-input-label" for="name">Name</label>
+          <input type="text" class="user-input" id="name">
+        </div>
+      </div>
+      <div class="user-payment section-container">
+        <h2 class="payment-title">PAYMENT</h2>
+        <div class="input-field">
+          <label class="user-input-label" for="cc">Credit Card Number</label>
+          <input type="text" class="user-input" id="cc">
+        </div>
+        <div class="input-field">
+          <label class="user-input-label" for="ccv">CCV Number</label>
+          <input type="text" class="user-input ccv" id="ccv">
+        </div>
+      </div>
+    </section>
+    <section class="totals">
+      <div class="parent">
+        <div class="div1">Subtotal</div>
+        <div class="div2">$534.00 </div>
+        <div class="div3">Tax</div>
+        <div class="div4">$53.40 </div>
+        <div class="div5">Final Total</div>
+        <div class="div6">$587.40</div>
+      </div>
+      <button class="placeOrder" type="button">Place order</button>
+    </section>
+</body>
+
+</html>
