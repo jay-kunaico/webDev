@@ -49,7 +49,7 @@ function forEach(array, callback) {
   // Reworked Challenge 5 so I can use this now
   array.forEach((element) => {
     callback(element);
-    console.log('Challenge 4 element ', callback(element));
+    // console.log("Challenge 4 element ",callback(element));
   });
 }
 forEach([1, 2, 3], addTwo);
@@ -61,13 +61,16 @@ function mapWith(array, callback) {
   // return forEach(array,callback);
   // above needed elements added to Challenge4
   const result = [];
-  array.forEach((element) => {
+  forEach(array, (element) => {
     result.push(callback(element));
   });
+  // array.forEach(element => {
+  //   result.push(callback(element));
+  // });
   return result;
 }
 const challenge5 = mapWith([10, 20, 30], addTwo);
-console.log('challenge5 result ', challenge5);
+console.log('challenge 5 result ', challenge5);
 
 // Challenge 6
 function reduce(array, callback, initialValue) {
