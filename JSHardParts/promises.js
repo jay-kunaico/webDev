@@ -1,8 +1,7 @@
 // Challenge 1
-
 function sayHello() {
   setTimeout(() => {
-    console.log('Hello!');
+    console.log('Hellooo!');
   }, 1000);
 }
 
@@ -11,43 +10,58 @@ sayHello(); // should log "Hello" after 1000ms
 
 // Challenge 2
 var promise = new Promise(function (resolve, reject) {
-  // ADD CODE HERE
+  setTimeout(() => {
+    resolve('Resolved!');
+  }, 1500);
 });
 
 // Should print out "Resolved!"
-// ADD CODE HERE
-
-// Challenge 3
-
-promise = new Promise(function (resolve, reject) {
-  // ADD CODE HERE
+promise.then((value) => {
+  console.log(value);
 });
 
+// Challenge 3
+promise = new Promise(function (resolve, reject) {
+  reject('Rejected!');
+});
 // Should print out "Reject!"
-// ADD CODE HERE
+promise.catch((value) => {
+  console.log(value);
+});
 
 // Challenge 4
-
 promise = new Promise(function (resolve, reject) {
-  // ADD CODE HERE
+  resolve();
 });
 
 // Uncomment the lines below when ready
-// promise.then(() => console.log('Promise has been resolved!'));
-// console.log("I'm not the promise!");
+promise.then(() => console.log('Promise has been resolved!'));
+console.log("I'm not the promise!");
 
 // Challenge 5
-function delay() {}
+function delay() {
+  return new Promise(function (resolve, reject) {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  });
+}
 
 // Uncomment the code below to test
 // This code should log "Hello" after 1000ms
-// delay().then(sayHello);
+delay().then(sayHello);
 
 // Challenge 6
-//
-// ADD CODE BELOW
-// var secondPromise =
-// var firstPromise =
+var secondPromise = new Promise((resolve, reject) => {
+  resolve('C6 Second!');
+});
+var firstPromise = new Promise((resolve, reject) => {
+  resolve(secondPromise);
+});
+
+firstPromise.then((value) => {
+  console.log(value);
+});
 
 // Challenge 7
 const fakePeople = [
@@ -68,5 +82,12 @@ const fakeAPICall = (i) => {
 };
 
 function getAllData() {
-  // CODE GOES HERE
+  const promises = fakePeople.map((person, index) => fakeAPICall(index));
+  return Promise.all(promises);
 }
+
+getAllData().then((data) => {
+  data.forEach((item) => {
+    console.log(item);
+  });
+});
