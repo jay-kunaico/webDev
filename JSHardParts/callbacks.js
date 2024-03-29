@@ -7,8 +7,8 @@ function addTwo(num) {
 }
 
 // To check if you've completed it, uncomment these console.logs!
-console.log(addTwo(3));
-console.log(addTwo(10));
+console.log('c1 ', addTwo(3));
+console.log('c1 ', addTwo(10));
 
 // Challenge 2
 function addS(word) {
@@ -16,8 +16,8 @@ function addS(word) {
 }
 
 // uncomment these to check your work
-console.log(addS('pizza'));
-console.log(addS('bagel'));
+console.log('c2 ', addS('pizza'));
+console.log('c2 ', addS('bagel'));
 
 // Challenge 3
 function map(array, callback) {
@@ -78,23 +78,57 @@ function reduce(array, callback, initialValue) {
   // for each element in the array set the accumulator to
   // the result of the callback on it
   // for(let i = 0; i < array.length; i++){
-  //   accumulator = callback(array[i]);
+  //   accumulator = callback(accumulator,array[i]);
   // }
-  array.forEach((element) => (accumulator = callback(element)));
+  array.forEach((element) => (accumulator = callback(accumulator, element)));
 
   return accumulator;
 }
-console.log('C6 ', reduce([5, 6, 7], addTwo, 0));
+const nums = [4, 1, 3];
+const add = function (a, b) {
+  return a + b;
+};
+// console.log("C6 ", reduce(nums, add, 0));
+console.log('C6 ', reduce([5, 6, 7], add, 0));
+// Arrays have a builtin for this
+const sum = nums.reduce((acc, current) => {
+  return acc + current;
+}, 0);
+console.log('builtin accumulator ', sum);
 
 // Challenge 7
 function intersection(arrays) {
   //create a new array by filtering out items that are not in both
   // use reduce to iterate over each currentArray in arrays
-  return arrays.reduce((intersectArray, currentArray) => {
-    // use filter to check if the current element is in intersectArray
-    // keep only values that are also present in currentArray .includes
-    return intersectArray.filter((element) => currentArray.includes(element));
+  // this way works too but I refactored it below
+  // return arrays.reduce((intersectArray, currentArray) => {
+  // use filter to check if the current element is in intersectArray
+  // keep only values that are also present in currentArray .includes
+  //   return intersectArray.filter((element) => currentArray.includes(element));
+  // });
+  let result = [];
+  arrays.forEach((currentArray, index) => {
+    // set result to the firt array as a baseline to compare to
+    if (index === 0) {
+      result = currentArray;
+    } else {
+      // call reduce from above passing array, callback and initifalValue
+      result = reduce(
+        currentArray,
+        (intersection, element) => {
+          // look for the element in the result and add it because we are looking for
+          // elements found in all of the arrays
+          if (result.includes(element)) {
+            intersection.push(element);
+          }
+          return intersection;
+          // initialValue
+        },
+        []
+      );
+    }
   });
+  return result;
 }
 
 console.log(
@@ -108,16 +142,28 @@ console.log(
 
 // Challenge 8
 function union(arrays) {
-  return arrays.reduce((intersectArray, currentArray) => {
-    currentArray.forEach((element) => {
-      if (!intersectArray.includes(element)) {
-        intersectArray.push(element);
-      }
-    });
-    return intersectArray;
-  }, []);
+  // return arrays.reduce((intersectArray, currentArray) => {
+  //   currentArray.forEach((element) => {
+  //     if (!intersectArray.includes(element)) {
+  //       intersectArray.push(element);
+  //     }
+  //   });
+  //   return intersectArray;
+  // REFACTORED
+  return reduce(
+    arrays,
+    (acc, currentArray) => {
+      currentArray.forEach((element) => {
+        if (!acc.includes(element)) {
+          acc.push(element);
+        }
+      });
+      return acc;
+    },
+    []
+  );
 }
-
+ddc;
 console.log(
   'Challenge 8 ',
   union([
