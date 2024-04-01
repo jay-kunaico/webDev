@@ -276,3 +276,167 @@ const isOdd = function (num) {
 };
 console.log(majority([1, 2, 3, 4, 5], isOdd)); // should log: true
 console.log(majority([2, 3, 4, 5], isOdd)); // should log: false
+
+// Challenge 13
+function prioritize(array, callback) {
+  const trueValues = [];
+  const falseValues = [];
+  array.forEach((element) => {
+    //separate elements based on the return value of the callback function.
+    if (callback(element)) {
+      // true elements added to the true array
+      trueValues.push(element);
+    } else {
+      // false values added to the false
+      falseValues.push(element);
+    }
+  });
+  //a new array by concatenating trueValues and falseValues, ensuring that elements that yielded true come first in the array.
+  return [...trueValues, ...falseValues];
+}
+
+// /*** Uncomment these to check your work! ***/
+const startsWithS = function (str) {
+  return str[0] === 's' || str[0] === 'S';
+};
+console.log(
+  prioritize(
+    ['curb', 'rickandmorty', 'seinfeld', 'sunny', 'friends'],
+    startsWithS
+  )
+);
+// should log:
+['seinfeld', 'sunny', 'curb', 'rickandmorty', 'friends'];
+
+// Challenge 14
+function countBy(array, callback) {
+  //use the reduce method to iterate through the input array.
+  return array.reduce((acc, current) => {
+    const key = callback(current);
+    //use the return value of the callback as a key in the accumulator object
+    //increment the value associated with that key to count the number of times that return value was returned
+    acc[key] = (acc[key] || 0) + 1;
+    // return the accumulator containg the count for each value
+    return acc;
+  }, {});
+}
+
+// /*** Uncomment these to check your work! ***/
+console.log(
+  countBy([1, 2, 3, 4, 5], function (num) {
+    if (num % 2 === 0) return 'even';
+    else return 'odd';
+  })
+); // should log: { odd: 3, even: 2 }
+
+// Challenge 15
+function groupBy(array, callback) {
+  // use reduce to iterate through array
+  return array.reduce((acc, current) => {
+    // use return value from callback as key in acc
+    const key = callback(current);
+    // if not key make an empty array
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    // push current element into array with the key
+    acc[key].push(current);
+    // return acc with elements groubed by return value
+    return acc;
+  }, {});
+}
+
+/*** Uncomment these to check your work! ***/
+const decimals = [1.3, 2.1, 2.4];
+const floored = function (num) {
+  return Math.floor(num);
+};
+console.log(groupBy(decimals, floored)); // should log: { 1: [1.3], 2: [2.1, 2.4] }
+
+// Challenge 16
+function goodKeys(obj, callback) {
+  const keys = [];
+  for (const key in obj) {
+    //check if the callback function returns true when called with the corresponding value from the object.
+    if (callback(obj[key])) {
+      //If the callback returns true, it includes the key in the filtered array.
+      keys.push(key);
+    }
+  }
+  //Finally, it returns an array of keys whose associated values yielded a true return value from the callback.
+  return keys;
+}
+
+/*** Uncomment these to check your work! ***/
+const sunny = {
+  mac: 'priest',
+  dennis: 'calculating',
+  charlie: 'birdlaw',
+  dee: 'bird',
+  frank: 'warthog',
+};
+const startsWithBird = function (str) {
+  return str.slice(0, 4).toLowerCase() === 'bird';
+};
+console.log(goodKeys(sunny, startsWithBird)); // should log: ['charlie', 'dee']
+
+// Challenge 17
+function commutative(func1, func2, value) {
+  const firstResult = func1(func2(value));
+  const secondResult = func2(func1(value));
+  return firstResult === secondResult;
+}
+
+/*** Uncomment these to check your work! ***/
+const multBy3 = (n) => n * 3;
+const divBy4 = (n) => n / 4;
+const subtract5 = (n) => n - 5;
+console.log(commutative(multBy3, divBy4, 11)); // should log: true
+console.log(commutative(multBy3, subtract5, 10)); // should log: false
+console.log(commutative(divBy4, subtract5, 48)); // should log: false
+
+// Challenge 18
+function objFilter(obj, callback) {
+  const filteredObject = {};
+  for (const key in obj) {
+    if (callback(key) === obj[key]) {
+      filteredObject[key] = obj[key];
+    }
+  }
+  return filteredObject;
+}
+
+/*** Uncomment these to check your work! ***/
+const startingObj = {};
+startingObj[6] = 3;
+startingObj[2] = 1;
+startingObj[12] = 4;
+const half = (n) => n / 2;
+console.log(objFilter(startingObj, half)); // should log: { 2: 1, 6: 3 }
+
+// Challenge 19
+function rating(arrOfFuncs, value) {
+  const trueCount = arrOfFuncs.filter((func) => func(value)).length;
+  return (trueCount / arrOfFuncs.length) * 100;
+}
+
+/*** Uncomment these to check your work! ***/
+const isEven = (n) => n % 2 === 0;
+const greaterThanFour = (n) => n > 4;
+const isSquare = (n) => Math.sqrt(n) % 1 === 0;
+const hasSix = (n) => n.toString().includes('6');
+const checks = [isEven, greaterThanFour, isSquare, hasSix];
+console.log(rating(checks, 64)); // should log: 100
+console.log(rating(checks, 66)); // should log: 75
+
+// Challenge 20
+function pipe(arrOfFuncs, value) {
+  return arrOfFuncs.reduce((acc, func) => func(acc), value);
+}
+
+/*** Uncomment these to check your work! ***/
+const capitalize = (str) => str.toUpperCase();
+const addLowerCase = (str) => str + str.toLowerCase();
+const repeat = (str) => str + str;
+const capAddlowRepeat = [capitalize, addLowerCase, repeat];
+console.l;
