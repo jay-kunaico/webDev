@@ -1,10 +1,10 @@
-import { buttonVariants } from "./components/ui/button";
+import { buttonVariants } from './components/ui/button';
 
 function App() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen space-y-20">
       <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
-        Vite, React, Tailwind minimal starter
+        Weather API
       </h1>
       <a
         href="https://github.com/moinulmoin/vite-react-tailwind-starter"
@@ -12,7 +12,9 @@ function App() {
         rel="noreferrer"
         className={buttonVariants()}
       >
-        <span className="text-lg hover:underline underline-offset-2">Star on GitHub</span>
+        <span className="text-lg hover:underline underline-offset-2">
+          Submit
+        </span>
       </a>
     </main>
   );
