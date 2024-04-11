@@ -6,15 +6,15 @@ import { buttonVariants } from './ui/button';
 //   setEndPoint: React.Dispatch<React.SetStateAction<string>>;
 // };
 interface IWeatherFormProps {
-  setLocation: string;
-  setEndPoint: string;
-  setDate: string;
-  setDays: string;
+  setLocation: React.Dispatch<React.SetStateAction<string>>;
+  setEndPoint: React.Dispatch<React.SetStateAction<string>>;
+  setDate: React.Dispatch<React.SetStateAction<string>>;
+  setDays: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const LocationForm: React.FunctionComponent<IWeatherProps> = ({
+const LocationForm: React.FunctionComponent<IWeatherFormProps> = ({
   setLocation,
-  setEndPoint = 'current.json',
+  setEndPoint,
   setDate,
   setDays,
 }) => {
@@ -34,6 +34,8 @@ const LocationForm: React.FunctionComponent<IWeatherProps> = ({
   const handleEndPoint = (event) => {
     const buttonText = event.target.textContent.toLowerCase();
     setEndPoint(buttonText + '.json');
+    setShowCalendar(false);
+    setShowDays(false);
     handleSubmit(event);
   };
 
@@ -44,12 +46,12 @@ const LocationForm: React.FunctionComponent<IWeatherProps> = ({
   };
 
   const handleForecastClick = () => {
-    setDate = '';
+    setDate('');
     setShowCalendar(false);
     setEndPoint('forecast.json');
     setShowDays(!showDays);
   };
-  const handleDateChange = (numericDate) => {
+  const handleDateChange = (numericDate: number) => {
     const currentYear = new Date().getFullYear();
     const currentMonth = String(new Date().getMonth() + 1).padStart(2, '0'); // Pad the month with leading zero
     const formattedDay = String(numericDate).padStart(2, '0'); // Pad the day with leading zero
