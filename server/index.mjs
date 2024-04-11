@@ -1,24 +1,48 @@
 import http from 'node:http';
 import process from 'node:process';
-import url from 'node:url';
-// import fs from 'node:fs/promises';
+
 const PORT = 3000;
-const WEATHERAPI = 'http://api.weatherapi.com/v1/forecast.json';
+const WEATHERAPI = 'http://api.weatherapi.com/v1/';
 const KEY = process.env.REACT_APP_API_KEY;
 
 const server = http.createServer(async function (req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const queryParams = url.searchParams;
-  //   console.log('queryParams', queryParams.get('location'));
-  if (req.url.includes('api')) {
-    res.writeHead(200, { 'content-type': 'application/json' });
-    const data = await fetchData(queryParams.get('location'));
+  const location = queryParams.get('location');
+  const endPoint = queryParams.get('endPoint');
+  const days = queryParams.get('days') || null;
+  const dt = queryParams.get('dt') || null;
+  // console.log('queryParams location', location);
+  // console.log('queryParams endPoint', endPoint);
+  console.log('url ', url.href);
 
-    res.end(JSON.stringify(data));
+  if (req.url.includes('api')) {
+    if (!endPoint) {
+      // Bad request, end point is required
+      res.writeHead(400, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Missing endpoint' }));
+    } else {
+      res.writeHead(200, { 'content-type': 'application/json' });
+
+      const data = await fetchData(location, endPoint, days, dt);
+      // console.log('data ', data);
+
+      res.end(JSON.stringify(data));
+    }
     return res;
   }
   async function fetchData(location) {
-    const result = await fetch(`${WEATHERAPI}?q=${location}&key=${KEY}&days=3`);
+    let url = `${WEATHERAPI}${endPoint}?key=${KEY}&q=${location}`;
+    if (days) {
+      url += `&days=${days}`;
+    }
+    if (dt) {
+      url += `&dt=${dt}`;
+    }
+    // console.log('server dt ', dt);
+
+    // console.log('server url ', url);
+    const result = await fetch(url);
     const data = await result.json();
     return data;
   }
