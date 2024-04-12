@@ -15,34 +15,40 @@ const server = http.createServer(async function (req, res) {
   // console.log('queryParams location', location);
   // console.log('queryParams endPoint', endPoint);
   console.log('url ', url.href);
-
+  // check if api is included in the requested URL
+  // Only execute if api is there
   if (req.url.includes('api')) {
+    //check if there is an endpoint.  An endpoint is required
     if (!endPoint) {
       // Bad request, end point is required
       res.writeHead(400, { 'content-type': 'application/json' });
       res.end(JSON.stringify({ error: 'Missing endpoint' }));
     } else {
+      // there is an endpoint send the response with content type json
       res.writeHead(200, { 'content-type': 'application/json' });
 
+      //call the fetchData function passing the parameters needed
       const data = await fetchData(location, endPoint, days, dt);
-      // console.log('data ', data);
 
       res.end(JSON.stringify(data));
     }
     return res;
   }
-  async function fetchData(location) {
+  async function fetchData(location, endPoint, days, dt) {
+    // construct the url with the parameters
     let url = `${WEATHERAPI}${endPoint}?key=${KEY}&q=${location}`;
+
+    // only include this parameter if it has a value
     if (days) {
       url += `&days=${days}`;
     }
+    // only include this parameter if it has a value
     if (dt) {
       url += `&dt=${dt}`;
     }
-    // console.log('server dt ', dt);
-
-    // console.log('server url ', url);
     const result = await fetch(url);
+
+    // save the response converted to json and return it
     const data = await result.json();
     return data;
   }

@@ -12,9 +12,9 @@ function App() {
 
   return (
     <>
-      <header class="bg-purple-700 text-white sticky top-0 z-10 ml-0">
-        <section class="max-w-4xl p-4 flex ">
-          <h1 class="text-3xl font-medium">Weather API</h1>
+      <header className="bg-purple-700 text-white sticky top-0 z-10 ml-0">
+        <section className="max-w-4xl p-4 flex ">
+          <h1 className="text-3xl font-medium">Weather API</h1>
         </section>
       </header>
       <main className="flex flex-col items-center  min-h-screen space-y-20 mt-10">
