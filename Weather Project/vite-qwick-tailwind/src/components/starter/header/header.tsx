@@ -4,40 +4,10 @@ import styles from "./header.module.css";
 
 export default component$(() => {
   return (
-    <header class={styles.header}>
-      <div class={["container", styles.wrapper]}>
-        <div class={styles.logo}>
-          <a href="/" title="qwik">
-            <QwikLogo height={50} width={143} />
-          </a>
-        </div>
-        <ul>
-          <li>
-            <a
-              href="https://qwik.dev/docs/components/overview/"
-              target="_blank"
-            >
-              Docs
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://qwik.dev/examples/introduction/hello-world/"
-              target="_blank"
-            >
-              Examples
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://qwik.dev/tutorial/welcome/overview/"
-              target="_blank"
-            >
-              Tutorials
-            </a>
-          </li>
-        </ul>
-      </div>
+    <header className="sticky top-0 z-10 ml-0 bg-purple-700 text-white">
+      <section className="flex max-w-4xl p-4 ">
+        <h1 className="text-3xl font-medium">Weather API</h1>
+      </section>
     </header>
   );
 });

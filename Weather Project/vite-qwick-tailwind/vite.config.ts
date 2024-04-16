@@ -41,16 +41,30 @@ export default defineConfig(({ command, mode }): UserConfig => {
           }
         : undefined,
     server: {
+        proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
       headers: {
         // Don't cache the server response in dev mode
         "Cache-Control": "public, max-age=0",
       },
     },
     preview: {
+        proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
       headers: {
         // Do cache the server response in preview (non-adapter production build)
         "Cache-Control": "public, max-age=600",
       },
+      
     },
+    
   };
 });
