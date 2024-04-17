@@ -1,16 +1,29 @@
-import { component$, useSignal, useTask$ } from "@builder.io/qwik";
+import {
+  component$,
+  useContextProvider,
+  useSignal,
+  useTask$,
+} from "@builder.io/qwik";
 import { isServer } from "@builder.io/qwik/build";
 
 import Weatherform from "~/components/weatherform";
 import Weatherdata from "~/components/weatherdata";
+import { weatherContextId } from "./weathercontext/weather-context-id";
 
 export default component$(() => {
-  const citySignal = useSignal("");
-  const endPointSignal = useSignal("current.json");
-  const daysSignal = useSignal("1");
-  const dateSignal = useSignal(new Date().toISOString().split("T")[0]);
-  const serverData = useSignal<any>();
-  const response = serverData;
+  const citySignal = useSignal<string>("");
+  const endPointSignal = useSignal<string>("current.json");
+  const daysSignal = useSignal<string>("1");
+  const dateSignal = useSignal<string>(new Date().toISOString().split("T")[0]);
+  const responseSignal = useSignal<object>();
+
+  useContextProvider(weatherContextId, {
+    citySignal,
+    endPointSignal,
+    daysSignal,
+    dateSignal,
+    responseSignal,
+  });
 
   useTask$(async ({ track, cleanup }) => {
     track(citySignal);
@@ -37,7 +50,7 @@ export default component$(() => {
       const data = await res.json();
       // console.log("data ", data);
 
-      serverData.value = data;
+      responseSignal.value = data;
     } catch (err) {
       console.log("Error", err);
     }
@@ -45,13 +58,8 @@ export default component$(() => {
 
   return (
     <>
-      <Weatherform
-        citySignal={citySignal}
-        endPointSignal={endPointSignal}
-        daysSignal={daysSignal}
-        dateSignal={dateSignal}
-      />
-      <Weatherdata response={response} endPointSignal={endPointSignal} />
+      <Weatherform />
+      <Weatherdata />
     </>
   );
 });
