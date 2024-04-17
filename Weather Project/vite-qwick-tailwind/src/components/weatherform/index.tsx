@@ -70,7 +70,6 @@ export default component$(() => {
             id="input"
             placeholder="Input Location"
             class="w-full rounded-md border-2 border-purple-600 px-2 py-1 placeholder-blue-300 caret-blue-400 placeholder-shown:bg-purple-100 disabled:bg-purple-100"
-            // bind:value={citySignal}
             onInput$={(event) => {
               citySignal.value = (event.target as HTMLInputElement).value;
             }}

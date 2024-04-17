@@ -9,17 +9,12 @@ import { weatherContextId } from "~/routes/weathercontext/weather-context-id";
 export default component$(() => {
   const { responseSignal, endPointSignal } = useContext(weatherContextId);
   const hour = new Date().getHours();
-
-  console.log("parsedResponse ", responseSignal.value?.location);
+  const response = responseSignal.value;
 
   function formatDateString(dateString: string) {
     const date = new Date(dateString);
-    // I will have to revist this, I don't know why the date was short by a day.  Maybe this should be its own utility
-    const timeZoneOffset = date.getTimezoneOffset() * 60 * 1000; // Convert offset to milliseconds
-    const adjustedDate = new Date(date.getTime() + timeZoneOffset);
-
-    return adjustedDate.toLocaleDateString(undefined, {
-      timeZone: responseSignal.value?.location?.tz_id,
+    return date.toLocaleDateString(undefined, {
+      timeZone: response.location?.tz_id,
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -28,12 +23,11 @@ export default component$(() => {
   }
   return (
     <>
-      {responseSignal.value && !responseSignal.value?.error && (
+      {response && !response?.error && (
         <div class="my-12 ml-4 flex flex-col items-center text-black">
           <div class="flex items-center">
             <p class="mr-2 text-4xl">
-              {responseSignal.value?.location?.name},
-              {responseSignal.value?.location?.region}
+              {response.location?.name},{response.location?.region}
             </p>
           </div>
 
@@ -43,37 +37,34 @@ export default component$(() => {
                 Current conditions as of:{" "}
                 <div class="ml-2 font-bold text-green-600">
                   <span>
-                    {new Date(
-                      responseSignal.value?.location?.localtime,
-                    ).toLocaleTimeString([], {
-                      hour: "numeric",
-                      minute: "2-digit",
-                      hour12: true,
-                    })}
+                    {new Date(response.location?.localtime).toLocaleTimeString(
+                      [],
+                      {
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true,
+                      },
+                    )}
                     <span class="ml-2">
-                      {formatDateString(
-                        responseSignal.value?.location?.localtime,
-                      )}
+                      {formatDateString(response.location?.localtime)}
                     </span>
                   </span>
                 </div>
               </div>
               <div class="py-2 text-black">
                 <div class="text-color-black flex items-center">
-                  <span>
-                    Temp: {responseSignal.value?.current?.temp_f}&deg;
-                  </span>
+                  <span>Temp: {response.current?.temp_f}&deg;</span>
                   <div class="mx-4 text-lg italic text-blue-600">
                     Feels like
                   </div>
-                  <span>{responseSignal.value?.current?.feelslike_f}&deg;</span>
+                  <span>{response.current?.feelslike_f}&deg;</span>
                 </div>
 
                 <div class="flex items-center text-black">
-                  {responseSignal.value?.current?.condition.text}
+                  {response.current?.condition.text}
                   <img
-                    src={responseSignal.value?.current?.condition.icon}
-                    alt={responseSignal.value?.current?.condition.text}
+                    src={response.current?.condition.icon}
+                    alt={response.current?.condition.text}
                     class="ml-1 mr-2 h-10 w-10"
                     height={32}
                     width={32}
@@ -81,10 +72,7 @@ export default component$(() => {
                 </div>
 
                 <div class="flex items-center text-black">
-                  Precip{" "}
-                  <p class="ml-1">
-                    {responseSignal.value?.current?.precip_in} in
-                  </p>
+                  Precip <p class="ml-1">{response.current?.precip_in} in</p>
                   <img
                     src={Raindrops}
                     alt="rain Icon"
@@ -96,9 +84,8 @@ export default component$(() => {
                 <div class="flex items-center text-black">
                   Wind
                   <p class="ml-3">
-                    {responseSignal.value?.current?.wind_dir}{" "}
-                    {responseSignal.value?.current?.wind_mph} mph Gusts{" "}
-                    {responseSignal.value?.current?.gust_mph}
+                    {response.current?.wind_dir} {response.current?.wind_mph}{" "}
+                    mph Gusts {response.current?.gust_mph}
                   </p>
                   <img
                     src={Windsolid}
@@ -110,7 +97,7 @@ export default component$(() => {
                 </div>
                 <div class="mt-3 flex items-center text-black">
                   Humidity
-                  <p class="ml-3">{responseSignal.value?.current?.humidity}%</p>
+                  <p class="ml-3">{response.current?.humidity}%</p>
                   <img
                     src={Humidity}
                     alt="Wind Icon"
@@ -121,9 +108,7 @@ export default component$(() => {
                 </div>
                 <div class="mt-3 flex items-center text-black">
                   Visibility
-                  <p class="ml-3">
-                    {responseSignal.value?.current?.vis_miles}%
-                  </p>
+                  <p class="ml-3">{response.current?.vis_miles}%</p>
                   <img
                     src={Eyes}
                     alt="Wind Icon"
@@ -134,7 +119,7 @@ export default component$(() => {
                 </div>
                 <div class="mt-3 flex items-center text-black">
                   UV
-                  <p class="ml-3">{responseSignal.value?.current?.uv}%</p>
+                  <p class="ml-3">{response.current?.uv}%</p>
                   <img
                     src={UV}
                     alt="Wind Icon"
@@ -149,8 +134,8 @@ export default component$(() => {
         </div>
       )}
       {endPointSignal.value !== "current.json" &&
-        responseSignal.value &&
-        !responseSignal.value?.error && (
+        response &&
+        !response.error && (
           <div class="max-w-screen-3xl mx-auto text-black">
             <div class="grid-auto-fit ml-2 grid gap-1">
               <div class="col-span-1 p-2 text-2xl underline">Time</div>
@@ -162,12 +147,10 @@ export default component$(() => {
 
               <div class="col-span-5 text-xl font-bold italic text-blue-700">
                 Conditions for:
-                {formatDateString(
-                  responseSignal.value?.forecast?.forecastday[0]?.date,
-                )}
+                {formatDateString(response.forecast?.forecastday[0]?.date)}
               </div>
               {/* Loop through the results helpful when there is more than one day selected */}
-              {responseSignal.value?.forecast?.forecastday.map(
+              {response.forecast?.forecastday.map(
                 (day: { hour: any[] }, index: number) => (
                   <>
                     {/* only after the first iteration */}
@@ -175,8 +158,7 @@ export default component$(() => {
                       <p class="col-span-5 text-xl font-bold italic text-blue-700">
                         Conditions for{" "}
                         {formatDateString(
-                          responseSignal.value?.forecast?.forecastday[index]
-                            ?.date,
+                          response.forecast?.forecastday[index]?.date,
                         )}
                       </p>
                     )}

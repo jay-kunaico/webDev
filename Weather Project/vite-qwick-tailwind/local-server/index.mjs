@@ -38,7 +38,6 @@ const server = http.createServer(async function (req, res) {
   async function fetchData(location, endPoint, days, dt) {
     // construct the url with the parameters
     let url = `${WEATHERAPI}${endPoint}?key=${KEY}&q=${location}`;
-    // const url = 'http://api.weatherapi.com/v1/current.json?key=64e56a234a35416b98b115919240904&q=London&aqi=no'
 
     // only include this parameter if it has a value
     if (days) {
