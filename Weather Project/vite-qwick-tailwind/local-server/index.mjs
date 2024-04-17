@@ -12,10 +12,7 @@ const server = http.createServer(async function (req, res) {
   const endPoint = queryParams.get("endPoint");
   const days = queryParams.get("days") || null;
   const dt = queryParams.get("dt") || null;
-  console.log("queryParams location", location);
-  console.log("queryParams endPoint", endPoint);
-  console.log("queryParams days", days);
-  console.log(" from client url ", url.href);
+
   // check if api is included in the requested URL
   // Only execute if api is there
   if (req.url.includes("api")) {
@@ -47,7 +44,6 @@ const server = http.createServer(async function (req, res) {
     if (dt) {
       url += `&dt=${dt}`;
     }
-    console.log("server url ", url);
     const result = await fetch(url);
 
     // save the response converted to json and return it

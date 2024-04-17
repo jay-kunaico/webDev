@@ -6,6 +6,7 @@ export default component$(() => {
     useContext(weatherContextId);
   const showDaysSelector = useSignal(false);
   const showFutureSelector = useSignal(false);
+
   const date = new Date();
   const futureDate = new Date(date);
   futureDate.setDate(date.getDate() + 14);
@@ -48,10 +49,6 @@ export default component$(() => {
         event.target.value || new Date().toISOString().split("T")[0];
     },
   );
-  const handleSelectChange = $((event: { target: { value: string } }) => {
-    const selectedValue = event.target.value;
-    daysSignal.value = selectedValue;
-  });
 
   return (
     <div>
@@ -91,7 +88,9 @@ export default component$(() => {
             <div class="ml-7 mt-4  w-full max-w-md ">
               <span>Select the number of days to forecast</span>
               <select
-                onChange$={handleSelectChange}
+                onChange$={(event) => {
+                  daysSignal.value = (event.target as HTMLSelectElement).value;
+                }}
                 class="ml-10 border border-blue-500"
               >
                 {Array.from({ length: 10 }, (_, i) => (

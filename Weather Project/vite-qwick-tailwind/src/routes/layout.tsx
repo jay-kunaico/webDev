@@ -20,7 +20,8 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 
 export const useServerTimeLoader = routeLoader$(() => {
   return {
-    date: new Date().toISOString(),
+    date: new Date().toDateString(),
+    time: new Date().toLocaleTimeString(),
   };
 });
 

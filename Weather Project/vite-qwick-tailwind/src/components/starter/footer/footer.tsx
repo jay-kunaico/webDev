@@ -10,7 +10,9 @@ export default component$(() => {
       <div class="container">
         <span class="mr-5">Made with ♡ by Jay</span>
         <span class={styles.spacer}>|</span>
-        <span>{serverTime.value.date}</span>
+        <span>
+          {serverTime.value.date} {serverTime.value.time}
+        </span>
       </div>
     </footer>
   );

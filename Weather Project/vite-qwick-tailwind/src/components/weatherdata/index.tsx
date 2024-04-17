@@ -5,29 +5,21 @@ import Humidity from "../../media/wi-humidity.svg";
 import Eyes from "../../media/eyes.png";
 import UV from "../../media/uv-index.svg";
 import { weatherContextId } from "~/routes/weathercontext/weather-context-id";
+import { FormatDateString } from "~/utils/formatDateString";
 
 export default component$(() => {
   const { responseSignal, endPointSignal } = useContext(weatherContextId);
   const hour = new Date().getHours();
+
   const response = responseSignal.value;
 
-  function formatDateString(dateString: string) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, {
-      timeZone: response.location?.tz_id,
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }
   return (
     <>
       {response && !response?.error && (
         <div class="my-12 ml-4 flex flex-col items-center text-black">
           <div class="flex items-center">
             <p class="mr-2 text-4xl">
-              {response.location?.name},{response.location?.region}
+              {response.location.name},{response.location.region}
             </p>
           </div>
 
@@ -37,7 +29,7 @@ export default component$(() => {
                 Current conditions as of:{" "}
                 <div class="ml-2 font-bold text-green-600">
                   <span>
-                    {new Date(response.location?.localtime).toLocaleTimeString(
+                    {new Date(response.location.localtime).toLocaleTimeString(
                       [],
                       {
                         hour: "numeric",
@@ -46,7 +38,10 @@ export default component$(() => {
                       },
                     )}
                     <span class="ml-2">
-                      {formatDateString(response.location?.localtime)}
+                      <FormatDateString
+                        dateString={response.location.localtime}
+                        timeZone={response.location.tz_id}
+                      />
                     </span>
                   </span>
                 </div>
@@ -57,14 +52,14 @@ export default component$(() => {
                   <div class="mx-4 text-lg italic text-blue-600">
                     Feels like
                   </div>
-                  <span>{response.current?.feelslike_f}&deg;</span>
+                  <span>{response.current.feelslike_f}&deg;</span>
                 </div>
 
                 <div class="flex items-center text-black">
-                  {response.current?.condition.text}
+                  {response.current.condition.text}
                   <img
-                    src={response.current?.condition.icon}
-                    alt={response.current?.condition.text}
+                    src={response.current.condition.icon}
+                    alt={response.current.condition.text}
                     class="ml-1 mr-2 h-10 w-10"
                     height={32}
                     width={32}
@@ -72,7 +67,7 @@ export default component$(() => {
                 </div>
 
                 <div class="flex items-center text-black">
-                  Precip <p class="ml-1">{response.current?.precip_in} in</p>
+                  Precip <p class="ml-1">{response.current.precip_in} in</p>
                   <img
                     src={Raindrops}
                     alt="rain Icon"
@@ -84,8 +79,8 @@ export default component$(() => {
                 <div class="flex items-center text-black">
                   Wind
                   <p class="ml-3">
-                    {response.current?.wind_dir} {response.current?.wind_mph}{" "}
-                    mph Gusts {response.current?.gust_mph}
+                    {response.current.wind_dir} {response.current.wind_mph} mph
+                    Gusts {response.current.gust_mph}
                   </p>
                   <img
                     src={Windsolid}
@@ -97,7 +92,7 @@ export default component$(() => {
                 </div>
                 <div class="mt-3 flex items-center text-black">
                   Humidity
-                  <p class="ml-3">{response.current?.humidity}%</p>
+                  <p class="ml-3">{response.current.humidity}%</p>
                   <img
                     src={Humidity}
                     alt="Wind Icon"
@@ -108,7 +103,7 @@ export default component$(() => {
                 </div>
                 <div class="mt-3 flex items-center text-black">
                   Visibility
-                  <p class="ml-3">{response.current?.vis_miles}%</p>
+                  <p class="ml-3">{response.current.vis_miles}%</p>
                   <img
                     src={Eyes}
                     alt="Wind Icon"
@@ -119,7 +114,7 @@ export default component$(() => {
                 </div>
                 <div class="mt-3 flex items-center text-black">
                   UV
-                  <p class="ml-3">{response.current?.uv}%</p>
+                  <p class="ml-3">{response.current.uv}%</p>
                   <img
                     src={UV}
                     alt="Wind Icon"
@@ -146,20 +141,24 @@ export default component$(() => {
               <hr class="col-span-5 w-full border-gray-300" />
 
               <div class="col-span-5 text-xl font-bold italic text-blue-700">
-                Conditions for:
-                {formatDateString(response.forecast?.forecastday[0]?.date)}
+                Conditions for{" "}
+                <FormatDateString
+                  dateString={response.forecast.forecastday[0]?.date}
+                  timeZone={response.location.tz_id}
+                />
               </div>
               {/* Loop through the results helpful when there is more than one day selected */}
-              {response.forecast?.forecastday.map(
+              {response.forecast.forecastday.map(
                 (day: { hour: any[] }, index: number) => (
                   <>
                     {/* only after the first iteration */}
                     {index !== 0 && (
                       <p class="col-span-5 text-xl font-bold italic text-blue-700">
                         Conditions for{" "}
-                        {formatDateString(
-                          response.forecast?.forecastday[index]?.date,
-                        )}
+                        <FormatDateString
+                          dateString={response.forecast.forecastday[0]?.date}
+                          timeZone={response.location.tz_id}
+                        />
                       </p>
                     )}
                     {/* only for the first iteration and when the Forecast button was clicked set the first result to the current hour and keep going until the end of the day, otherwise set the hour to 0  */}
@@ -173,7 +172,7 @@ export default component$(() => {
                         <>
                           <div
                             class="text- col-span-1 flex items-center p-2"
-                            key={index}
+                            key={`${index}-${hour}`}
                           >
                             {new Date(hour.time).toLocaleTimeString([], {
                               hour: "numeric",
