@@ -5,34 +5,30 @@ export interface Condition {
   icon: string;
 }
 
-export interface Location {
-  tz_id: string;
-  name: string;
-  region: string;
-  localtime: string;
-}
-
-export interface Current {
-  condition: Condition;
-  feelslike_f: string;
-  temp_f: string;
-  precip_in: string;
-  wind_dir: string;
-  wind_mph: string;
-  gust_mph: string;
-  humidity: string;
-  vis_miles: string;
-  uv: string;
-}
-
-export interface Forecast {
+type Forecast = {
   forecastday: Array<any>;
-}
+};
 
 export interface Response {
-  location: Location;
+  location: {
+    tz_id: string;
+    name: string;
+    region: string;
+    localtime: string;
+  };
   tz_id: string;
-  current: Current;
+  current: {
+    condition: Condition;
+    feelslike_f: string;
+    temp_f: string;
+    precip_in: string;
+    wind_dir: string;
+    wind_mph: string;
+    gust_mph: string;
+    humidity: string;
+    vis_miles: string;
+    uv: string;
+  };
   error: string;
   name: string;
   forecast: Forecast;
