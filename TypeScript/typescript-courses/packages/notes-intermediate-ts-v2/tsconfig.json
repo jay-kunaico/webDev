@@ -1,18 +1,20 @@
 {
-    "include": ["src"],
-    "compilerOptions": {
-        "module": "CommonJS",
-        "outDir": "dist",
-        "target": "ES2018",
-        "moduleResolution": "Node",
-        "noUnusedParameters": false,
-        "noUnusedLocals": false,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "strictFunctionTypes": true,
-        "strictNullChecks": true,
-        "checkJs": true,
-        "esModuleInterop": false,
-        "allowSyntheticDefaultImports": false
-    }
+  "include": ["src"],
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "dist",
+    "target": "ES2018",
+    "moduleResolution": "Node",
+    "strictPropertyInitialization": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "checkJs": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": false
+  }
 }
