@@ -68,8 +68,8 @@
       "question": "Which of the following is a valid tuple?",
       "options": [
         "var employee: [number, string] = [1, 'Jay']",
-        "var emploiyee:(number|string) = 123",
-        "var employee = [1,'Jay'];",
+        "var employee:(number | string) = 123",
+        "var employee = [1, 'Jay'];",
         "None of the above"
       ],
       "answer": "var employee: [number, string] = [1, 'Jay']"
@@ -87,7 +87,7 @@
     },
     {
       "id": 11,
-      "question": "What will be the output of the following code snippet? let arr =[10, 20, 30, 40]; for(var val of arr) {onsole.log(val); }",
+      "question": "What will be the output of the following code snippet? let arr =[10, 20, 30, 40]; for(var val of arr) {console.log(val); }",
       "options": [
         "prints 10,20,30,40",
         "prints 0,1,2,3",
@@ -154,7 +154,7 @@
     },
     {
       "id": 18,
-      "question": "Which of the following command is used to compile a module?",
+      "question": "Which of the following commands is used to compile a module?",
       "options": [
         "tsc --module amd mymodule.ts",
         "tsc -m amd mymodule.ts",
