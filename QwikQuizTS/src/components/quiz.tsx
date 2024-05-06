@@ -17,7 +17,9 @@ export default component$(() => {
       currentIndex.value++;
       selectedAnswer.value = answers.value[currentIndex.value]; // Reset the selected answer
     }
-    disableRadios.value = false;
+    if (!selectedAnswer.value) {
+      disableRadios.value = false;
+    }
   });
 
   const handleAnswerChange$ = $((answer: string) => {
@@ -82,7 +84,7 @@ export default component$(() => {
                       <label for="q1" class="text-lg text-gray-800">
                         {question.id}. {question.question}
                       </label>
-                      {options.map((option: string, index: number) => {
+                      {options.map((option: string) => {
                         return (
                           <div key={option}>
                             <input
